@@ -1,0 +1,21 @@
+.form-validation{
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+}
+.validation-input{
+  margin: 5px;
+}
+.button-submit{
+  margin: 10px;
+}
+.validation-input:valid{
+  border: 2px solid black;
+}
+.validation-input:invalid {
+  border: 2px solid red;
+}
+
+.massage{
+  color: red;
+}
