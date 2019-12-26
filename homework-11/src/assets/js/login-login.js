@@ -20,20 +20,35 @@
 //     }
 // }
 
+
+async function windowOnload() {
+    if (localStorage.token) {
+        const response = await fetch('http://localhost:3000/api/users/current', {
+            method: 'GET',
+            headers: {
+                'x-access-token': localStorage.token
+            }
+        })
+        console.log(localStorage.token)
+    } else {
+        console.log('log in')
+    }
+}
+// console.log(windowOnload())
+
 function setOnClickHandlerByElemId(elemId, callback) {
     let button = document.getElementById(elemId);
     button.addEventListener('click', SendDateFormLogIn)
 }
+
 setOnClickHandlerByElemId('submit', SendDateFormLogIn)
 
-async function SendDateFormLogIn() {
+async function SendDateFormLogIn(e) {
+    e.preventDefault();
     const url = 'http://localhost:3000/api/users/login';
 
     let email = document.getElementById("email").value;
     let password = document.getElementById('password').value;
-
-    console.log(document.getElementById("email").value)
-    console.log(document.getElementById("password").value)
 
     let user = {
         // "password": "123455678",
@@ -53,13 +68,16 @@ async function SendDateFormLogIn() {
         console.log(response)
 
         let result = await response.json();
-        if (!response.ok) {
-            throw new Error(` ${url}, status: ${response.status}`);
+        if (!response.ok) {                                                      //если ответ не 200
+            throw new Error(`No connection ${url}, status: ${response.status}`);
+        } else {
+            alert('Successfully log in')
+            let getToken = localStorage.getItem( 'token');
+            console.log(getToken)
         }
-        let localStorage = await response.headers.get('x-auth-token');
-        console.log(result);
     } catch (error) {
         console.error('Error:', error);
     }
 }
-console.log(SendDateFormLogIn())
+//     123455678
+
